@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketTimeoutException;
+import java.net.*;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -27,6 +25,7 @@ public class ChatServer {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(port);
+            startUdpService();
 
             while (true) {
                 Client nextClient = new Client(serverSocket.accept());
@@ -44,10 +43,38 @@ public class ChatServer {
         }
     }
 
+    private void startUdpService() {
+        new Thread(() -> {
+            DatagramSocket udpSocket = null;
+            try {
+                udpSocket = new DatagramSocket(port);
+                byte[] receiveBuffer = new byte[1024];
+
+                while (true) {
+                    DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                    udpSocket.receive(packet);
+                    String clientId = packet.getAddress().getHostAddress() + ":" + packet.getPort();
+                    sendUdpToAllOtherClients(packet.getData(), clientId);
+                }
+            } catch (IOException ioe) {
+                raiseError("Fatal error: " + ioe.getMessage());
+            }
+
+        }).start();
+    }
+
     private void sendToAllOtherClients(String msg, String currentClient) {
-        for (Map.Entry<String, Client> client : clients.entrySet()) {
-            if (!client.getKey().equals(currentClient)) {
-                client.getValue().sendMsg(msg);
+        for (Map.Entry<String, Client> clientEntry : clients.entrySet()) {
+            if (!clientEntry.getKey().equals(currentClient)) {
+                clientEntry.getValue().sendMsg(msg);
+            }
+        }
+    }
+
+    private void sendUdpToAllOtherClients(byte[] msg, String currentClient) {
+        for (Map.Entry<String, Client> clientEntry: clients.entrySet()) {
+            if (!clientEntry.getKey().equals(currentClient)) {
+                clientEntry.getValue().sendUdpMsg(msg);
             }
         }
     }
@@ -69,6 +96,24 @@ public class ChatServer {
 
         void sendMsg(String msg) {
             toSend.add(msg);
+        }
+
+        void sendUdpMsg(byte[] msg) {
+            byte[] signedMsg = (uniqueName + ":\n" + new String(msg)).getBytes();
+            DatagramSocket udpSocket = null;
+            try {
+                udpSocket = new DatagramSocket();
+                DatagramPacket packet = new DatagramPacket(signedMsg, signedMsg.length,
+                        tcpSocket.getInetAddress(), tcpSocket.getPort());
+
+                udpSocket.send(packet);
+            } catch (IOException ioe) {
+                raiseError("Fatal error: " + ioe.getMessage());
+            } finally {
+                if (udpSocket != null) {
+                    udpSocket.close();
+                }
+            }
         }
 
         public void run() {

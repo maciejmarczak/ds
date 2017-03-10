@@ -1,13 +1,12 @@
 package javachat;
 
+import com.github.lalyos.jfiglet.FigletFont;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Scanner;
 
 public class ChatClient {
@@ -27,17 +26,20 @@ public class ChatClient {
 
         try {
             tcpSocket = new Socket(host, port);
-            udpSocket = new DatagramSocket();
+            udpSocket = new DatagramSocket(tcpSocket.getLocalPort());
             connected = true;
 
             Thread reader = new Thread(new SocketReader(tcpSocket));
-            Thread writer = new Thread(new SocketWriter(tcpSocket));
+            Thread writer = new Thread(new SocketWriter(tcpSocket, udpSocket));
+            Thread udpReader = new Thread(new UdpSocketReader(udpSocket));
 
             reader.start();
             writer.start();
+            udpReader.start();
 
             reader.join();
             writer.join();
+            udpReader.join();
 
         } catch (IOException ioe) {
             raiseError("Fatal error: " + ioe.getMessage());
@@ -47,6 +49,9 @@ public class ChatClient {
             if (tcpSocket != null) {
                 try { tcpSocket.close(); }
                 catch (IOException ignored) {}
+            }
+            if (udpSocket != null) {
+                udpSocket.close();
             }
         }
     }
@@ -84,22 +89,32 @@ public class ChatClient {
 
     private class SocketWriter implements Runnable {
         final Socket tcpSocket;
+        final DatagramSocket udpSocket;
 
-        SocketWriter(Socket tcpSocket) {
+        SocketWriter(Socket tcpSocket, DatagramSocket udpSocket) {
             this.tcpSocket = tcpSocket;
+            this.udpSocket = udpSocket;
         }
 
         public void run() {
             PrintWriter out = null;
             Scanner sc = null;
             try {
+                InetAddress host = tcpSocket.getInetAddress();
+                int port = tcpSocket.getPort();
+
                 out = new PrintWriter(tcpSocket.getOutputStream(), true);
                 sc = new Scanner(System.in);
 
                 while (connected) {
-                    out.println(sc.nextLine());
+                    String nextLine = sc.nextLine();
+                    if (nextLine.startsWith("'M'")) {
+                        sendUdpPacket(host, port, getAsciiArtText(nextLine.substring(3)).getBytes());
+                    }
+                    out.println(nextLine);
                 }
                 System.out.println("connection closed");
+                System.exit(1);
             } catch (IOException ioe) {
                 raiseError("Fatal error: " + ioe.getMessage());
             } finally {
@@ -109,6 +124,33 @@ public class ChatClient {
                 if (sc != null) {
                     sc.close();
                 }
+            }
+        }
+
+        void sendUdpPacket(InetAddress host, int port, byte[] msg) throws IOException {
+            DatagramPacket packet = new DatagramPacket(msg, msg.length, host, port);
+            udpSocket.send(packet);
+        }
+    }
+
+    private class UdpSocketReader implements Runnable {
+        final DatagramSocket udpSocket;
+
+        UdpSocketReader(DatagramSocket udpSocket) {
+            this.udpSocket = udpSocket;
+        }
+
+        public void run() {
+            byte[] receiveBuffer = new byte[1024];
+
+            try {
+                while (true) {
+                    DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
+                    udpSocket.receive(packet);
+                    System.out.println(new String(packet.getData()));
+                }
+            } catch (IOException ioe) {
+                raiseError("Fatal error: " + ioe.getMessage());
             }
         }
     }
@@ -129,5 +171,9 @@ public class ChatClient {
     private static void raiseError(String errorMsg) {
         System.out.println(errorMsg);
         System.exit(-1);
+    }
+
+    private static String getAsciiArtText(String text) {
+        return FigletFont.convertOneLine(text);
     }
 }
