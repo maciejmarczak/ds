@@ -53,14 +53,14 @@ public class ChatServer {
     }
 
     private class Client implements Runnable {
-        final Socket clientSocket;
+        final Socket tcpSocket;
         ConcurrentLinkedQueue<String> toSend = new ConcurrentLinkedQueue<>();
         final String uniqueName;
 
-        Client(Socket clientSocket) {
-            this.clientSocket = clientSocket;
-            this.uniqueName = clientSocket.getInetAddress().getHostAddress() + ":" +
-                    clientSocket.getPort();
+        Client(Socket tcpSocket) {
+            this.tcpSocket = tcpSocket;
+            this.uniqueName = tcpSocket.getInetAddress().getHostAddress() + ":" +
+                    tcpSocket.getPort();
         }
 
         String getUniqueName() {
@@ -75,9 +75,9 @@ public class ChatServer {
             BufferedReader in = null;
             PrintWriter out = null;
             try {
-                clientSocket.setSoTimeout(200);
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
+                tcpSocket.setSoTimeout(200);
+                in = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
+                out = new PrintWriter(tcpSocket.getOutputStream(), true);
 
                 StringBuilder inMsg = new StringBuilder(uniqueName + ":\t");
                 int sign = 0;
@@ -110,8 +110,8 @@ public class ChatServer {
                 if (out != null) {
                     out.close();
                 }
-                if (clientSocket != null) {
-                    try { clientSocket.close(); }
+                if (tcpSocket != null) {
+                    try { tcpSocket.close(); }
                     catch (IOException ignored) {}
                 }
             }

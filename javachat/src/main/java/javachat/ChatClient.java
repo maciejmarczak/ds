@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -21,14 +22,16 @@ public class ChatClient {
     }
 
     private void startClient() {
-        Socket socket = null;
+        Socket tcpSocket = null;
+        DatagramSocket udpSocket = null;
 
         try {
-            socket = new Socket(host, port);
+            tcpSocket = new Socket(host, port);
+            udpSocket = new DatagramSocket();
             connected = true;
 
-            Thread reader = new Thread(new SocketReader(socket));
-            Thread writer = new Thread(new SocketWriter(socket));
+            Thread reader = new Thread(new SocketReader(tcpSocket));
+            Thread writer = new Thread(new SocketWriter(tcpSocket));
 
             reader.start();
             writer.start();
@@ -41,25 +44,25 @@ public class ChatClient {
         } catch (InterruptedException ie) {
             System.out.println("InterruptedException raised");
         } finally {
-            if (socket != null) {
-                try { socket.close(); }
+            if (tcpSocket != null) {
+                try { tcpSocket.close(); }
                 catch (IOException ignored) {}
             }
         }
     }
 
     private class SocketReader implements Runnable {
-        final Socket socket;
+        final Socket tcpSocket;
 
-        SocketReader(Socket socket) {
-            this.socket = socket;
+        SocketReader(Socket tcpSocket) {
+            this.tcpSocket = tcpSocket;
         }
 
         public void run() {
             BufferedReader in = null;
 
             try {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                in = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
 
                 while (true) {
                     String line;
@@ -80,17 +83,17 @@ public class ChatClient {
     }
 
     private class SocketWriter implements Runnable {
-        final Socket socket;
+        final Socket tcpSocket;
 
-        SocketWriter(Socket socket) {
-            this.socket = socket;
+        SocketWriter(Socket tcpSocket) {
+            this.tcpSocket = tcpSocket;
         }
 
         public void run() {
             PrintWriter out = null;
             Scanner sc = null;
             try {
-                out = new PrintWriter(socket.getOutputStream(), true);
+                out = new PrintWriter(tcpSocket.getOutputStream(), true);
                 sc = new Scanner(System.in);
 
                 while (connected) {
