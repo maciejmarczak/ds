@@ -44,9 +44,9 @@ public class ChatServer {
         }
     }
 
-    private void sendToAllClients(String msg, String exception) {
+    private void sendToAllOtherClients(String msg, String currentClient) {
         for (Map.Entry<String, Client> client : clients.entrySet()) {
-            if (!client.getKey().equals(exception)) {
+            if (!client.getKey().equals(currentClient)) {
                 client.getValue().sendMsg(msg);
             }
         }
@@ -90,7 +90,7 @@ public class ChatServer {
 
                     if (inMsg.charAt(inMsg.length() - 1) == '\n') {
                         String finalMsg = inMsg.deleteCharAt(inMsg.length() - 1).toString();
-                        sendToAllClients(finalMsg, uniqueName);
+                        sendToAllOtherClients(finalMsg, uniqueName);
                         inMsg = new StringBuilder(uniqueName + ":\t");
                     }
 
