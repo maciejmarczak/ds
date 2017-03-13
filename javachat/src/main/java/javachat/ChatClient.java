@@ -110,8 +110,9 @@ public class ChatClient {
                     String nextLine = sc.nextLine();
                     if (nextLine.startsWith("'M'")) {
                         sendUdpPacket(host, port, getAsciiArtText(nextLine.substring(3)).getBytes());
+                    } else {
+                        out.println(nextLine);
                     }
-                    out.println(nextLine);
                 }
                 System.out.println("connection closed");
                 System.exit(1);
