@@ -1,10 +1,13 @@
 package org.maciejmarczak.ds.jgroupschat;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
+import org.jgroups.ReceiverAdapter;
 import org.jgroups.protocols.*;
 import org.jgroups.protocols.pbcast.*;
 import org.jgroups.stack.ProtocolStack;
+import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos;
 import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos.ChatAction;
 import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos.ChatAction.ActionType;
 
@@ -36,6 +39,31 @@ class ChannelUtils {
                 .build();
 
         return new Message(null, null, action.toByteArray());
+    }
+
+    static class ChannelReceiver extends ReceiverAdapter {
+        private final String channelName;
+
+        ChannelReceiver(String channelName) {
+            this.channelName = channelName;
+        }
+
+        @Override
+        public void receive(Message msg) {
+
+            String messageText = null;
+            try {
+                messageText = ChatOperationProtos.ChatMessage
+                        .parseFrom(msg.getBuffer()).getMessage();
+            } catch (InvalidProtocolBufferException ipbe) {
+                System.out.println("Fatal error: " + ipbe.getMessage());
+                System.exit(-1);
+            }
+
+            String sender = msg.getSrc().toString();
+
+            System.out.printf("%s at %s: %s\n", sender, channelName, messageText);
+        }
     }
 
     private static ProtocolStack getProtocolStack(InetAddress address) {

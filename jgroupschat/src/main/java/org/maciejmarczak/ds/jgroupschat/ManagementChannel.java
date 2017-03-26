@@ -1,10 +1,13 @@
 package org.maciejmarczak.ds.jgroupschat;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import org.jgroups.JChannel;
+import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
-import org.jgroups.demos.Chat;
+import org.jgroups.View;
 import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos;
 import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos.ChatState;
+import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos.ChatAction;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,7 +33,6 @@ final class ManagementChannel {
         try {
             managementChannel.connect(CHANNEL);
             managementChannel.getState(null, 10000);
-            System.out.println("After init");
         } catch (Exception e) {
             System.out.println("ManagementChannel init failure: " + e.getMessage());
             System.exit(-1);
@@ -58,19 +60,38 @@ final class ManagementChannel {
     private class ManagementReceiver extends ReceiverAdapter {
 
         @Override
+        public void viewAccepted(View view) {
+            stateView.setStateView(view);
+        }
+
+        @Override
+        public void receive(Message msg) {
+            try {
+                ChatAction chatAction = ChatAction.parseFrom(msg.getBuffer());
+
+                if (chatAction.getAction() == ChatAction.ActionType.JOIN) {
+                    stateView.addClient(chatAction);
+                } else {
+                    stateView.delClient(chatAction);
+                }
+
+            } catch (InvalidProtocolBufferException ipbe) {
+                System.out.println("Fatal error: " + ipbe.getMessage());
+                System.exit(-1);
+            }
+        }
+
+        @Override
         public void getState(OutputStream output) throws Exception {
             ChatState.newBuilder()
                     .addAllState(stateView.getStateView())
                     .build()
                     .writeTo(output);
-
-            System.out.println("getState: " + stateView.getStateView().size() + ": " + stateView.toString());
         }
 
         @Override
         public void setState(InputStream input) throws Exception {
             stateView.setStateView(ChatState.parseFrom(input).getStateList());
-            System.out.println("setState: " + stateView.getStateView().size() + ": " + stateView.toString());
         }
     }
 

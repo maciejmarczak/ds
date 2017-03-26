@@ -1,5 +1,7 @@
 package org.maciejmarczak.ds.jgroupschat;
 
+import org.jgroups.Address;
+import org.jgroups.View;
 import org.maciejmarczak.ds.jgroupschat.protos.ChatOperationProtos.ChatAction;
 
 import java.util.LinkedList;
@@ -27,12 +29,14 @@ class StateView {
     synchronized List<String> getAllChannels() {
         return stateView.stream()
                 .map(ChatAction::getChannel)
+                .distinct()
                 .collect(Collectors.toList());
     }
 
     synchronized List<String> getNicknamesForChannel(String channel) {
         return stateView.stream()
                 .filter(a -> a.getChannel().equals(channel))
+                .distinct()
                 .map(ChatAction::getNickname)
                 .collect(Collectors.toList());
     }
@@ -43,6 +47,15 @@ class StateView {
             copiedView.add(StateViewUtils.chatActionDeepCopy(action));
         }
         stateView = copiedView;
+    }
+
+    synchronized void setStateView(View view) {
+        List<String> connectedClients =
+                view.getMembers().stream()
+                    .map(Address::toString)
+                    .collect(Collectors.toList());
+
+        stateView.removeIf(a -> !connectedClients.contains(a.getNickname()));
     }
 
     synchronized List<ChatAction> getStateView() {
