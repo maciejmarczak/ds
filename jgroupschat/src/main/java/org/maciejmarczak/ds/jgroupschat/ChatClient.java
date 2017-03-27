@@ -17,7 +17,6 @@ public class ChatClient {
 
     private String nickname;
     private ManagementChannel managementChannel;
-    private boolean disconnect = false;
 
     private void init() throws IOException {
         System.setProperty("java.net.preferIPv4Stack", "true");
@@ -25,7 +24,7 @@ public class ChatClient {
         nickname = TerminalUtils.readLine("Username");
         managementChannel = new ManagementChannel(nickname, stateView);
 
-        while (!disconnect) {
+        while (true) {
             String line = TerminalUtils.readLine();
 
             if (line == null || line.split(" ", 2).length < 2) {
@@ -46,9 +45,11 @@ public class ChatClient {
                     sendMessage(arg);
                     break;
                 case "c":
+                    if (!arg.equals("l")) break;
                     listChannels();
                     break;
                 case "n":
+                    if (!arg.equals("l")) break;
                     listChannelsWithClients();
                     break;
                 case "q":
