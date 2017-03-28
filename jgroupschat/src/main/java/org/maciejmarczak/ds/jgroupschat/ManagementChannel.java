@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 final class ManagementChannel {
-    private static final String CHANNEL = "ChatManagement321123";
+    private static final String CHANNEL = "ChatManagement321321";
 
     private final String nickname;
     private final StateView stateView;
