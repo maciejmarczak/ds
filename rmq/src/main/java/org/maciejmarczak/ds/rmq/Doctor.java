@@ -31,6 +31,8 @@ public class Doctor extends ChatParticipant {
             if ("q".equals(msg)) break;
 
             String[] cmd = msg.split("\\s+", 2);
+            if (cmd.length != 2) continue;
+
             String finalMsg = name + ":::" + cmd[1];
             mainChannel.basicPublish(RabbitUtils.HOSPITAL_EXCHANGE, "hospital.tech." + cmd[0],
                     null, finalMsg.getBytes());
