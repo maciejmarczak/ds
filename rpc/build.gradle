@@ -1,0 +1,9 @@
+group 'org.maciejmarczak.ds.rpc'
+version '1.0-SNAPSHOT'
+
+task buildProtos(type: Exec) {
+    workingDir 'protos'
+
+    executable 'bash'
+    commandLine './build.sh'
+}

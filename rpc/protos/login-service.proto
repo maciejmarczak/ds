@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "user.proto";
+
+option java_package = "org.maciejmarczak.ds.rpc.server.protos";
+
+message LoginRequest {
+    string id = 1;
+}
+
+service LoginService {
+    rpc Login (LoginRequest) returns (User) {}
+}
