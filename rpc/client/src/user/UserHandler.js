@@ -3,17 +3,17 @@ const readlineSync = require('readline-sync');
 const optsGenerator = (clazz, role) => {
 
     let userOpts = [
-        { strVal: 'Exit', func: () => process.exit() }
+        { strVal: 'Exit', func: () => process.exit() },
+        { strVal: 'Show medical exams', func: () => clazz.showMedicalExams() }
     ];
 
     let workerOpts = [
-        { strVal: 'Show medical exams', func: () => clazz.showMedicalExams() },
         { strVal: 'List all patients', func: () => clazz.listPatients() }
     ].concat(userOpts);
 
     let opts = {
         'DOCTOR': workerOpts,
-        'PATIENT': null,
+        'PATIENT': userOpts,
         'TECHNICIAN': workerOpts
     };
 
@@ -74,6 +74,6 @@ export class PatientHandler extends UserHandler {
     menuOptions = optsGenerator(this, 'PATIENT');
 
     showMedicalExams() {
-        UserHandler._showMedicalExams(this.user.id);
+        this._showMedicalExams(this.user.id);
     }
 }
