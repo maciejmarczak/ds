@@ -40,8 +40,9 @@ class UserHandler {
     }
 
     _showMedicalExams(id) {
-        console.log('Showing medical exams of user ' + id);
-        this.showMenu();
+        patient.getExamsByPatientId({ id: id }, (err, response) => {
+           console.log(response);
+        });
     }
 }
 

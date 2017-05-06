@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_package = "org.maciejmarczak.ds.rpc.server.protos";
+option java_multiple_files = true;
+
+message Exam {
+    string patientId = 1;
+    string doctorId = 2;
+    int64 date = 3;
+
+    message ParamGroup {
+        string name = 1;
+
+        message Param {
+            string name = 1;
+            string value = 2;
+            string unit = 3;
+        }
+
+        repeated Param params = 2;
+    }
+
+    repeated ParamGroup paramGroups = 4;
+}
+
+message ExamList {
+    repeated Exam exam = 1;
+}
