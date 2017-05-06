@@ -55,7 +55,7 @@ class WorkerHandler extends UserHandler {
         patient.getAllPatients({}, (err, response) => {
             let patientArray = response.patient;
             patientArray.forEach(p => {
-                console.log('ID:\t' + p.user.id + '\tNAME:\t' + p.user.full_name);
+                console.log('ID:\t' + p.id + '\tNAME:\t' + p.full_name);
             });
             this.showMenu();
         });

@@ -1,12 +1,12 @@
 syntax = "proto3";
 
 import "empty.proto";
-import "patient.proto";
+import "user.proto";
 
 option java_package = "org.maciejmarczak.ds.rpc.server.protos";
 
 message PatientList {
-    repeated Patient patient = 1;
+    repeated User patient = 1;
 }
 
 service PatientService {

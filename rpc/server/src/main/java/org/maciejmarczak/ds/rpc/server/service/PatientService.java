@@ -5,7 +5,6 @@ import org.maciejmarczak.ds.rpc.server.dao.UserDao;
 import org.maciejmarczak.ds.rpc.server.protos.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PatientService extends
         PatientServiceGrpc.PatientServiceImplBase {
@@ -18,21 +17,11 @@ public class PatientService extends
 
         List<User> users = userDao.getAllPatients();
 
-        List<Patient> patients = users.stream()
-                .map(this::createFromUser)
-                .collect(Collectors.toList());
-
-        responseObserver.onNext(toPatientListMsg(patients));
+        responseObserver.onNext(toPatientListMsg(users));
         responseObserver.onCompleted();
     }
 
-    private Patient createFromUser(User user) {
-        return Patient.newBuilder()
-                .setUser(user)
-                .build();
-    }
-
-    private PatientServiceOuterClass.PatientList toPatientListMsg(List<Patient> patients) {
+    private PatientServiceOuterClass.PatientList toPatientListMsg(List<User> patients) {
         return PatientServiceOuterClass.PatientList.newBuilder()
                 .addAllPatient(patients)
                 .build();
