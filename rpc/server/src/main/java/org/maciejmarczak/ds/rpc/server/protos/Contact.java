@@ -89,7 +89,7 @@ public  final class Contact extends
   public static final int ADDRESS_FIELD_NUMBER = 1;
   private volatile java.lang.Object address_;
   /**
-   * <code>optional string address = 1;</code>
+   * <code>string address = 1;</code>
    */
   public java.lang.String getAddress() {
     java.lang.Object ref = address_;
@@ -104,7 +104,7 @@ public  final class Contact extends
     }
   }
   /**
-   * <code>optional string address = 1;</code>
+   * <code>string address = 1;</code>
    */
   public com.google.protobuf.ByteString
       getAddressBytes() {
@@ -123,7 +123,7 @@ public  final class Contact extends
   public static final int PHONE_NUMBER_FIELD_NUMBER = 2;
   private volatile java.lang.Object phoneNumber_;
   /**
-   * <code>optional string phone_number = 2;</code>
+   * <code>string phone_number = 2;</code>
    */
   public java.lang.String getPhoneNumber() {
     java.lang.Object ref = phoneNumber_;
@@ -138,7 +138,7 @@ public  final class Contact extends
     }
   }
   /**
-   * <code>optional string phone_number = 2;</code>
+   * <code>string phone_number = 2;</code>
    */
   public com.google.protobuf.ByteString
       getPhoneNumberBytes() {
@@ -157,7 +157,7 @@ public  final class Contact extends
   public static final int MAIL_FIELD_NUMBER = 3;
   private volatile java.lang.Object mail_;
   /**
-   * <code>optional string mail = 3;</code>
+   * <code>string mail = 3;</code>
    */
   public java.lang.String getMail() {
     java.lang.Object ref = mail_;
@@ -172,7 +172,7 @@ public  final class Contact extends
     }
   }
   /**
-   * <code>optional string mail = 3;</code>
+   * <code>string mail = 3;</code>
    */
   public com.google.protobuf.ByteString
       getMailBytes() {
@@ -256,7 +256,7 @@ public  final class Contact extends
       return memoizedHashCode;
     }
     int hash = 41;
-    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + ADDRESS_FIELD_NUMBER;
     hash = (53 * hash) + getAddress().hashCode();
     hash = (37 * hash) + PHONE_NUMBER_FIELD_NUMBER;
@@ -268,6 +268,17 @@ public  final class Contact extends
     return hash;
   }
 
+  public static org.maciejmarczak.ds.rpc.server.protos.Contact parseFrom(
+      java.nio.ByteBuffer data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data);
+  }
+  public static org.maciejmarczak.ds.rpc.server.protos.Contact parseFrom(
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data, extensionRegistry);
+  }
   public static org.maciejmarczak.ds.rpc.server.protos.Contact parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -493,7 +504,7 @@ public  final class Contact extends
 
     private java.lang.Object address_ = "";
     /**
-     * <code>optional string address = 1;</code>
+     * <code>string address = 1;</code>
      */
     public java.lang.String getAddress() {
       java.lang.Object ref = address_;
@@ -508,7 +519,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string address = 1;</code>
+     * <code>string address = 1;</code>
      */
     public com.google.protobuf.ByteString
         getAddressBytes() {
@@ -524,7 +535,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string address = 1;</code>
+     * <code>string address = 1;</code>
      */
     public Builder setAddress(
         java.lang.String value) {
@@ -537,7 +548,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string address = 1;</code>
+     * <code>string address = 1;</code>
      */
     public Builder clearAddress() {
       
@@ -546,7 +557,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string address = 1;</code>
+     * <code>string address = 1;</code>
      */
     public Builder setAddressBytes(
         com.google.protobuf.ByteString value) {
@@ -562,7 +573,7 @@ public  final class Contact extends
 
     private java.lang.Object phoneNumber_ = "";
     /**
-     * <code>optional string phone_number = 2;</code>
+     * <code>string phone_number = 2;</code>
      */
     public java.lang.String getPhoneNumber() {
       java.lang.Object ref = phoneNumber_;
@@ -577,7 +588,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string phone_number = 2;</code>
+     * <code>string phone_number = 2;</code>
      */
     public com.google.protobuf.ByteString
         getPhoneNumberBytes() {
@@ -593,7 +604,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string phone_number = 2;</code>
+     * <code>string phone_number = 2;</code>
      */
     public Builder setPhoneNumber(
         java.lang.String value) {
@@ -606,7 +617,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string phone_number = 2;</code>
+     * <code>string phone_number = 2;</code>
      */
     public Builder clearPhoneNumber() {
       
@@ -615,7 +626,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string phone_number = 2;</code>
+     * <code>string phone_number = 2;</code>
      */
     public Builder setPhoneNumberBytes(
         com.google.protobuf.ByteString value) {
@@ -631,7 +642,7 @@ public  final class Contact extends
 
     private java.lang.Object mail_ = "";
     /**
-     * <code>optional string mail = 3;</code>
+     * <code>string mail = 3;</code>
      */
     public java.lang.String getMail() {
       java.lang.Object ref = mail_;
@@ -646,7 +657,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string mail = 3;</code>
+     * <code>string mail = 3;</code>
      */
     public com.google.protobuf.ByteString
         getMailBytes() {
@@ -662,7 +673,7 @@ public  final class Contact extends
       }
     }
     /**
-     * <code>optional string mail = 3;</code>
+     * <code>string mail = 3;</code>
      */
     public Builder setMail(
         java.lang.String value) {
@@ -675,7 +686,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string mail = 3;</code>
+     * <code>string mail = 3;</code>
      */
     public Builder clearMail() {
       
@@ -684,7 +695,7 @@ public  final class Contact extends
       return this;
     }
     /**
-     * <code>optional string mail = 3;</code>
+     * <code>string mail = 3;</code>
      */
     public Builder setMailBytes(
         com.google.protobuf.ByteString value) {

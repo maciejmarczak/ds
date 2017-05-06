@@ -209,7 +209,7 @@ public  final class User extends
   public static final int ID_FIELD_NUMBER = 1;
   private volatile java.lang.Object id_;
   /**
-   * <code>optional string id = 1;</code>
+   * <code>string id = 1;</code>
    */
   public java.lang.String getId() {
     java.lang.Object ref = id_;
@@ -224,7 +224,7 @@ public  final class User extends
     }
   }
   /**
-   * <code>optional string id = 1;</code>
+   * <code>string id = 1;</code>
    */
   public com.google.protobuf.ByteString
       getIdBytes() {
@@ -243,7 +243,7 @@ public  final class User extends
   public static final int FULL_NAME_FIELD_NUMBER = 2;
   private volatile java.lang.Object fullName_;
   /**
-   * <code>optional string full_name = 2;</code>
+   * <code>string full_name = 2;</code>
    */
   public java.lang.String getFullName() {
     java.lang.Object ref = fullName_;
@@ -258,7 +258,7 @@ public  final class User extends
     }
   }
   /**
-   * <code>optional string full_name = 2;</code>
+   * <code>string full_name = 2;</code>
    */
   public com.google.protobuf.ByteString
       getFullNameBytes() {
@@ -277,13 +277,13 @@ public  final class User extends
   public static final int ROLE_FIELD_NUMBER = 3;
   private int role_;
   /**
-   * <code>optional .User.Role role = 3;</code>
+   * <code>.User.Role role = 3;</code>
    */
   public int getRoleValue() {
     return role_;
   }
   /**
-   * <code>optional .User.Role role = 3;</code>
+   * <code>.User.Role role = 3;</code>
    */
   public org.maciejmarczak.ds.rpc.server.protos.User.Role getRole() {
     org.maciejmarczak.ds.rpc.server.protos.User.Role result = org.maciejmarczak.ds.rpc.server.protos.User.Role.valueOf(role_);
@@ -293,19 +293,19 @@ public  final class User extends
   public static final int CONTACT_FIELD_NUMBER = 4;
   private org.maciejmarczak.ds.rpc.server.protos.Contact contact_;
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   public boolean hasContact() {
     return contact_ != null;
   }
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   public org.maciejmarczak.ds.rpc.server.protos.Contact getContact() {
     return contact_ == null ? org.maciejmarczak.ds.rpc.server.protos.Contact.getDefaultInstance() : contact_;
   }
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   public org.maciejmarczak.ds.rpc.server.protos.ContactOrBuilder getContactOrBuilder() {
     return getContact();
@@ -391,7 +391,7 @@ public  final class User extends
       return memoizedHashCode;
     }
     int hash = 41;
-    hash = (19 * hash) + getDescriptorForType().hashCode();
+    hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + ID_FIELD_NUMBER;
     hash = (53 * hash) + getId().hashCode();
     hash = (37 * hash) + FULL_NAME_FIELD_NUMBER;
@@ -407,6 +407,17 @@ public  final class User extends
     return hash;
   }
 
+  public static org.maciejmarczak.ds.rpc.server.protos.User parseFrom(
+      java.nio.ByteBuffer data)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data);
+  }
+  public static org.maciejmarczak.ds.rpc.server.protos.User parseFrom(
+      java.nio.ByteBuffer data,
+      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+      throws com.google.protobuf.InvalidProtocolBufferException {
+    return PARSER.parseFrom(data, extensionRegistry);
+  }
   public static org.maciejmarczak.ds.rpc.server.protos.User parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -645,7 +656,7 @@ public  final class User extends
 
     private java.lang.Object id_ = "";
     /**
-     * <code>optional string id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -660,7 +671,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -676,7 +687,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public Builder setId(
         java.lang.String value) {
@@ -689,7 +700,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public Builder clearId() {
       
@@ -698,7 +709,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional string id = 1;</code>
+     * <code>string id = 1;</code>
      */
     public Builder setIdBytes(
         com.google.protobuf.ByteString value) {
@@ -714,7 +725,7 @@ public  final class User extends
 
     private java.lang.Object fullName_ = "";
     /**
-     * <code>optional string full_name = 2;</code>
+     * <code>string full_name = 2;</code>
      */
     public java.lang.String getFullName() {
       java.lang.Object ref = fullName_;
@@ -729,7 +740,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional string full_name = 2;</code>
+     * <code>string full_name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getFullNameBytes() {
@@ -745,7 +756,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional string full_name = 2;</code>
+     * <code>string full_name = 2;</code>
      */
     public Builder setFullName(
         java.lang.String value) {
@@ -758,7 +769,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional string full_name = 2;</code>
+     * <code>string full_name = 2;</code>
      */
     public Builder clearFullName() {
       
@@ -767,7 +778,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional string full_name = 2;</code>
+     * <code>string full_name = 2;</code>
      */
     public Builder setFullNameBytes(
         com.google.protobuf.ByteString value) {
@@ -783,13 +794,13 @@ public  final class User extends
 
     private int role_ = 0;
     /**
-     * <code>optional .User.Role role = 3;</code>
+     * <code>.User.Role role = 3;</code>
      */
     public int getRoleValue() {
       return role_;
     }
     /**
-     * <code>optional .User.Role role = 3;</code>
+     * <code>.User.Role role = 3;</code>
      */
     public Builder setRoleValue(int value) {
       role_ = value;
@@ -797,14 +808,14 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .User.Role role = 3;</code>
+     * <code>.User.Role role = 3;</code>
      */
     public org.maciejmarczak.ds.rpc.server.protos.User.Role getRole() {
       org.maciejmarczak.ds.rpc.server.protos.User.Role result = org.maciejmarczak.ds.rpc.server.protos.User.Role.valueOf(role_);
       return result == null ? org.maciejmarczak.ds.rpc.server.protos.User.Role.UNRECOGNIZED : result;
     }
     /**
-     * <code>optional .User.Role role = 3;</code>
+     * <code>.User.Role role = 3;</code>
      */
     public Builder setRole(org.maciejmarczak.ds.rpc.server.protos.User.Role value) {
       if (value == null) {
@@ -816,7 +827,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .User.Role role = 3;</code>
+     * <code>.User.Role role = 3;</code>
      */
     public Builder clearRole() {
       
@@ -829,13 +840,13 @@ public  final class User extends
     private com.google.protobuf.SingleFieldBuilderV3<
         org.maciejmarczak.ds.rpc.server.protos.Contact, org.maciejmarczak.ds.rpc.server.protos.Contact.Builder, org.maciejmarczak.ds.rpc.server.protos.ContactOrBuilder> contactBuilder_;
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public boolean hasContact() {
       return contactBuilder_ != null || contact_ != null;
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public org.maciejmarczak.ds.rpc.server.protos.Contact getContact() {
       if (contactBuilder_ == null) {
@@ -845,7 +856,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public Builder setContact(org.maciejmarczak.ds.rpc.server.protos.Contact value) {
       if (contactBuilder_ == null) {
@@ -861,7 +872,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public Builder setContact(
         org.maciejmarczak.ds.rpc.server.protos.Contact.Builder builderForValue) {
@@ -875,7 +886,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public Builder mergeContact(org.maciejmarczak.ds.rpc.server.protos.Contact value) {
       if (contactBuilder_ == null) {
@@ -893,7 +904,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public Builder clearContact() {
       if (contactBuilder_ == null) {
@@ -907,7 +918,7 @@ public  final class User extends
       return this;
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public org.maciejmarczak.ds.rpc.server.protos.Contact.Builder getContactBuilder() {
       
@@ -915,7 +926,7 @@ public  final class User extends
       return getContactFieldBuilder().getBuilder();
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     public org.maciejmarczak.ds.rpc.server.protos.ContactOrBuilder getContactOrBuilder() {
       if (contactBuilder_ != null) {
@@ -926,7 +937,7 @@ public  final class User extends
       }
     }
     /**
-     * <code>optional .Contact contact = 4;</code>
+     * <code>.Contact contact = 4;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         org.maciejmarczak.ds.rpc.server.protos.Contact, org.maciejmarczak.ds.rpc.server.protos.Contact.Builder, org.maciejmarczak.ds.rpc.server.protos.ContactOrBuilder> 

@@ -8,44 +8,44 @@ public interface UserOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional string id = 1;</code>
+   * <code>string id = 1;</code>
    */
   java.lang.String getId();
   /**
-   * <code>optional string id = 1;</code>
+   * <code>string id = 1;</code>
    */
   com.google.protobuf.ByteString
       getIdBytes();
 
   /**
-   * <code>optional string full_name = 2;</code>
+   * <code>string full_name = 2;</code>
    */
   java.lang.String getFullName();
   /**
-   * <code>optional string full_name = 2;</code>
+   * <code>string full_name = 2;</code>
    */
   com.google.protobuf.ByteString
       getFullNameBytes();
 
   /**
-   * <code>optional .User.Role role = 3;</code>
+   * <code>.User.Role role = 3;</code>
    */
   int getRoleValue();
   /**
-   * <code>optional .User.Role role = 3;</code>
+   * <code>.User.Role role = 3;</code>
    */
   org.maciejmarczak.ds.rpc.server.protos.User.Role getRole();
 
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   boolean hasContact();
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   org.maciejmarczak.ds.rpc.server.protos.Contact getContact();
   /**
-   * <code>optional .Contact contact = 4;</code>
+   * <code>.Contact contact = 4;</code>
    */
   org.maciejmarczak.ds.rpc.server.protos.ContactOrBuilder getContactOrBuilder();
 }

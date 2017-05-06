@@ -19,7 +19,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.4.0-SNAPSHOT)",
-    comments = "Source: login.service.proto")
+    comments = "Source: login-service.proto")
 public final class LoginServiceGrpc {
 
   private LoginServiceGrpc() {}

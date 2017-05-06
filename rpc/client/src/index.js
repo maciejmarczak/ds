@@ -1,15 +1,32 @@
 const grpc = require('grpc');
 
+// load all protos into global context
 import ProtosLoader from "./ProtosLoader";
+global.protos = new ProtosLoader('../protos/').loadProtos();
 
-function main() {
-    let protos = new ProtosLoader('../protos/').loadProtos();
+global.client = new protos.LoginService('localhost:50001', grpc.credentials.createInsecure());
+global.patient = new protos.PatientService('localhost:50001', grpc.credentials.createInsecure());
 
-    let client = new protos.LoginService
-        ('localhost:50001', grpc.credentials.createInsecure());
+import AuthComponent from "./AuthComponent";
+import { DoctorHandler, PatientHandler,
+    TechnicianHandler } from "./user/UserHandler";
 
-    client.login({id: "100"}, function(err, response) {
-    });
+class Application {
+    authComponent = new AuthComponent(this.handleUser);
+
+    start() {
+        this.authComponent.login();
+    }
+
+    handleUser(user) {
+        let handlers = {
+            'DOCTOR': new DoctorHandler(user),
+            'PATIENT': new PatientHandler(user),
+            'TECHNICIAN': new TechnicianHandler(user)
+        };
+
+        handlers[user.role].showMenu();
+    }
 }
 
-main();
+new Application().start();

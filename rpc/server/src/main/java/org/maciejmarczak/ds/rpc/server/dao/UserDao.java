@@ -5,6 +5,7 @@ import org.maciejmarczak.ds.rpc.server.protos.User;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDao {
     public User getById(String id) {
@@ -12,6 +13,16 @@ public class UserDao {
                 .filter(u -> u.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<User> getAllPatients() {
+        return getAllByRole(User.Role.PATIENT);
+    }
+
+    private List<User> getAllByRole(User.Role role) {
+        return UserMockData.USERS.stream()
+                .filter(u -> u.getRole() == role)
+                .collect(Collectors.toList());
     }
 
     static class UserMockData {

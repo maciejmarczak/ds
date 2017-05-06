@@ -8,31 +8,31 @@ public interface ContactOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>optional string address = 1;</code>
+   * <code>string address = 1;</code>
    */
   java.lang.String getAddress();
   /**
-   * <code>optional string address = 1;</code>
+   * <code>string address = 1;</code>
    */
   com.google.protobuf.ByteString
       getAddressBytes();
 
   /**
-   * <code>optional string phone_number = 2;</code>
+   * <code>string phone_number = 2;</code>
    */
   java.lang.String getPhoneNumber();
   /**
-   * <code>optional string phone_number = 2;</code>
+   * <code>string phone_number = 2;</code>
    */
   com.google.protobuf.ByteString
       getPhoneNumberBytes();
 
   /**
-   * <code>optional string mail = 3;</code>
+   * <code>string mail = 3;</code>
    */
   java.lang.String getMail();
   /**
-   * <code>optional string mail = 3;</code>
+   * <code>string mail = 3;</code>
    */
   com.google.protobuf.ByteString
       getMailBytes();

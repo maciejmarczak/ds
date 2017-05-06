@@ -3,6 +3,7 @@ package org.maciejmarczak.ds.rpc.server;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.maciejmarczak.ds.rpc.server.service.LoginService;
+import org.maciejmarczak.ds.rpc.server.service.PatientService;
 
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ final class HospitalServer {
     void start() throws IOException {
         server = ServerBuilder.forPort(port)
                 .addService(new LoginService())
+                .addService(new PatientService())
                 .build()
                 .start();
 
