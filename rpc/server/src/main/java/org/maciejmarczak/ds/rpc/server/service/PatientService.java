@@ -16,6 +16,18 @@ public class PatientService extends
     private final Random random = new Random();
 
     @Override
+    public void addExam(Exam request, StreamObserver<PatientServiceOuterClass.SubmitStatus> responseObserver) {
+
+        PatientServiceOuterClass.SubmitStatus status =
+                PatientServiceOuterClass.SubmitStatus.newBuilder()
+                        .setMessage(examDao.addExam(request))
+                        .build();
+
+        responseObserver.onNext(status);
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void getExamsByPatientId(PatientServiceOuterClass.PatientId request,
                                     StreamObserver<Exam> responseObserver) {
 

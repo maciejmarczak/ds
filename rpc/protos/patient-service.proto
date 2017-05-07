@@ -14,7 +14,12 @@ message PatientId {
     string id = 1;
 }
 
+message SubmitStatus {
+    string message = 1;
+}
+
 service PatientService {
     rpc GetAllPatients (Empty) returns (PatientList) {}
     rpc GetExamsByPatientId (PatientId) returns (stream Exam) {}
+    rpc AddExam (Exam) returns (SubmitStatus) {}
 }

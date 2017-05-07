@@ -11,10 +11,14 @@ const optsGenerator = (clazz, role) => {
         { strVal: 'List all patients', func: () => clazz.listPatients() }
     ].concat(userOpts);
 
+    let technicianOpts = [
+        { strVal: 'Add new exam', func: () => clazz.addExam() }
+    ].concat(workerOpts);
+
     let opts = {
         'DOCTOR': workerOpts,
         'PATIENT': userOpts,
-        'TECHNICIAN': workerOpts
+        'TECHNICIAN': technicianOpts
     };
 
     return opts[role];
@@ -86,6 +90,46 @@ export class DoctorHandler extends WorkerHandler {
 
 export class TechnicianHandler extends WorkerHandler {
     menuOptions = optsGenerator(this, 'TECHNICIAN');
+
+    addExam() {
+        let patientId = readlineSync.question('Patient Id: ');
+        let doctorId = readlineSync.question('Doctor Id: ');
+        let date = new Date().getTime();
+
+        let exam = {
+            patientId: patientId,
+            doctorId: doctorId,
+            date: date,
+            paramGroups: []
+        };
+
+        let addNewParamGroup = true;
+        while (addNewParamGroup) {
+            let groupName = readlineSync.question('Group name: ');
+
+            let paramGroup = { name: groupName, params: [] };
+
+            let addNewParam = true;
+            while (addNewParam) {
+                let name = readlineSync.question('Param name: ');
+                let value = readlineSync.question('Param value: ');
+                let unit = readlineSync.question('Param unit: ');
+
+                paramGroup.params.push({ name: name, value: value, unit: unit });
+
+                addNewParam = readlineSync.keyInYN('Add new param?');
+            }
+
+            exam.paramGroups.push(paramGroup);
+
+            addNewParamGroup = readlineSync.keyInYN('Add new param group?');
+        }
+
+        patient.addExam(exam, (err, response) => {
+            console.log(response);
+            this.showMenu();
+        });
+    }
 }
 
 export class PatientHandler extends UserHandler {

@@ -1,6 +1,7 @@
 package org.maciejmarczak.ds.rpc.server.dao;
 
 import org.maciejmarczak.ds.rpc.server.protos.Exam;
+import org.maciejmarczak.ds.rpc.server.protos.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,10 +10,29 @@ import java.util.stream.Collectors;
 
 public class ExamDao {
 
+    private final UserDao userDao = new UserDao();
+
     public List<Exam> getExamsByPatientId(String patientId) {
         return ExamMockData.EXAMS.stream()
                 .filter(e -> e.getPatientId().equals(patientId))
                 .collect(Collectors.toList());
+    }
+
+    public String addExam(Exam exam) {
+        User patient = userDao.getById(exam.getPatientId());
+        User doctor = userDao.getById(exam.getDoctorId());
+
+        if (patient == null || patient.getRole() != User.Role.PATIENT) {
+            return "Invalid patient ID";
+        }
+
+        if (doctor == null || doctor.getRole() != User.Role.DOCTOR) {
+            return "Invalid doctor ID";
+        }
+        
+        ExamMockData.EXAMS.add(exam);
+
+        return "success";
     }
 
     static class ExamMockData {
@@ -26,11 +46,11 @@ public class ExamDao {
                 createParamGroup("Hematologia", createParams("INT,64,k"))
         );
 
-        static final List<Exam> EXAMS = Arrays.asList(
+        static final List<Exam> EXAMS = new ArrayList<>(Arrays.asList(
                 createExam("101", "100", getDate("22-07-2016"), getRandomParamGroups()),
                 createExam("102", "100", getDate("11-05-2015"), getRandomParamGroups()),
                 createExam("101", "100", getDate("26-03-2016"), getRandomParamGroups())
-        );
+        ));
 
         static Exam createExam(String patientId, String doctorId,
                                long date, List<Exam.ParamGroup> paramGroups) {

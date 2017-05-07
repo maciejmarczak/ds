@@ -29,7 +29,8 @@ public class UserDao {
         static final List<User> USERS = Arrays.asList(
                 createUser("100", "Adam Nowak", createContact(), User.Role.DOCTOR),
                 createUser("101", "Jan Kowalski", createContact(), User.Role.PATIENT),
-                createUser("102", "Jon Doe", createContact(), User.Role.PATIENT)
+                createUser("102", "Jon Doe", createContact(), User.Role.PATIENT),
+                createUser("103", "Ed Nygma", createContact(), User.Role.TECHNICIAN)
         );
 
         static User createUser(String id, String fullName, Contact contact, User.Role role) {
