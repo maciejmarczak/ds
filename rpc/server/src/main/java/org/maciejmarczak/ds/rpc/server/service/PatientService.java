@@ -6,27 +6,29 @@ import org.maciejmarczak.ds.rpc.server.dao.UserDao;
 import org.maciejmarczak.ds.rpc.server.protos.*;
 
 import java.util.List;
+import java.util.Random;
 
 public class PatientService extends
         PatientServiceGrpc.PatientServiceImplBase {
 
     private final UserDao userDao = new UserDao();
     private final ExamDao examDao = new ExamDao();
+    private final Random random = new Random();
 
     @Override
     public void getExamsByPatientId(PatientServiceOuterClass.PatientId request,
-                                    StreamObserver<ExamList> responseObserver) {
+                                    StreamObserver<Exam> responseObserver) {
 
         List<Exam> exams = examDao.getExamsByPatientId(request.getId());
 
-        responseObserver.onNext(toExamListMsg(exams));
+        // mock server delay
+        for (Exam exam : exams) {
+            try {
+                Thread.sleep(random.nextInt(1500) + 1500);
+                responseObserver.onNext(exam);
+            } catch (InterruptedException ignored) {}
+        }
         responseObserver.onCompleted();
-    }
-
-    private ExamList toExamListMsg(List<Exam> exams) {
-        return ExamList.newBuilder()
-                .addAllExam(exams)
-                .build();
     }
 
     @Override

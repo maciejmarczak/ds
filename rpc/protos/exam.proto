@@ -22,7 +22,3 @@ message Exam {
 
     repeated ParamGroup paramGroups = 4;
 }
-
-message ExamList {
-    repeated Exam exam = 1;
-}

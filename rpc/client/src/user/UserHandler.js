@@ -40,9 +40,26 @@ class UserHandler {
     }
 
     _showMedicalExams(id) {
-        patient.getExamsByPatientId({ id: id }, (err, response) => {
-           console.log(response);
-        });
+        console.log('\nMEDICAL EXAMS OF PATIENT ' + id);
+        let call = patient.getExamsByPatientId({ id: id });
+
+        call.on('data', printExam);
+        call.on('end', () => this.showMenu());
+
+        function printExam(exam) {
+            console.log('\n\nDoctorId:\t' + exam.doctorId + '\tDate:\t' +
+                new Date(parseInt(exam.date)).toDateString());
+
+            exam.paramGroups.forEach(printParamGroup);
+
+            function printParamGroup(paramGroup) {
+                console.log(paramGroup.name);
+                for (let param of paramGroup.params) {
+                    console.log('\t\t' + param.name + '\t' + param.value +
+                        '\t' + param.unit);
+                }
+            }
+        }
     }
 }
 

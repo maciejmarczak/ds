@@ -16,5 +16,5 @@ message PatientId {
 
 service PatientService {
     rpc GetAllPatients (Empty) returns (PatientList) {}
-    rpc GetExamsByPatientId (PatientId) returns (ExamList) {}
+    rpc GetExamsByPatientId (PatientId) returns (stream Exam) {}
 }
