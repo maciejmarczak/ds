@@ -1,9 +1,9 @@
 const readlineSync = require('readline-sync');
+const grpc = require('grpc');
 
 const optsGenerator = (clazz, role) => {
 
     let userOpts = [
-        { strVal: 'Exit', func: () => process.exit() },
         { strVal: 'Show medical exams', func: () => clazz.showMedicalExams() }
     ];
 
@@ -40,6 +40,9 @@ class UserHandler {
 
         if (choice) {
             choice.func();
+        } else {
+            grpc.getClientChannel(client).close();
+            grpc.getClientChannel(patient).close();
         }
     }
 
