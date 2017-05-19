@@ -1,5 +1,7 @@
 package org.maciejmarczak.ds.akka.model;
 
+import de.svenjacobs.loremipsum.LoremIpsum;
+
 import java.math.BigDecimal;
 
 public class Book {
@@ -21,5 +23,18 @@ public class Book {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public byte[] getContent() {
+        return ContentGenerator.getContent();
+    }
+
+    private static class ContentGenerator {
+        static final LoremIpsum LOREM_IPSUM
+                = new LoremIpsum();
+
+        static byte[] getContent() {
+            return LOREM_IPSUM.getParagraphs(1).getBytes();
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.maciejmarczak.ds.akka.model.Book;
+import org.maciejmarczak.ds.akka.model.BookNotFoundException;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -55,27 +56,23 @@ public class BookService {
         return result;
     }
 
-    public boolean order(String title) {
+    public void order(String title) {
         Book book = findBook(title);
 
         if (book == null) {
-            return false;
+            throw new BookNotFoundException(title + " doesn't exist so it can't be ordered.");
         }
 
-        boolean added = false;
         try (CSVPrinter printer =
                      new CSVPrinter(new FileWriter(DbSource.ORDERS_DB), CSVFormat.EXCEL)) {
 
             synchronized (LOCK) {
                 printer.printRecord(book.getTitle());
             }
-            added = true;
         } catch (IOException e) {
             // should be logged
             e.printStackTrace();
         }
-
-        return added;
     }
 
     private class BookFinder implements Callable<Book> {
