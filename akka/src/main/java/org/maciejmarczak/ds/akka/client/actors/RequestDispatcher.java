@@ -24,7 +24,7 @@ public class RequestDispatcher extends AbstractActor {
     }
 
     private void dispatchRequest(String command) {
-        String[] cmd = command.split(" ", 2);
+        String[] cmd = command.trim().split(" ", 2);
 
         if (!isCmdValid(cmd)) {
             System.out.println("Invalid command: " + command);
