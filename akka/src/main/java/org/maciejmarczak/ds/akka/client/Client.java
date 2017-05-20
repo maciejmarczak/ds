@@ -1,13 +1,11 @@
 package org.maciejmarczak.ds.akka.client;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.maciejmarczak.ds.akka.client.actors.ResponseReceiver;
-import org.maciejmarczak.ds.akka.model.BookRequest;
+import org.maciejmarczak.ds.akka.client.actors.RequestDispatcher;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +14,6 @@ import java.io.InputStreamReader;
 
 public class Client {
     private static final ActorSystem SYSTEM;
-    private static final ActorRef RESPONSE_RECEIVER;
 
     static {
         File configFile = new File("conf/client.conf");
@@ -24,13 +21,11 @@ public class Client {
 
         // create actor system
         SYSTEM = ActorSystem.create("client", config);
-        RESPONSE_RECEIVER
-                = SYSTEM.actorOf(Props.create(ResponseReceiver.class), "responseReceiver");
     }
 
     public static void main(String[] args) throws IOException {
-        final ActorSelection bookManager = SYSTEM.actorSelection(
-                "akka.tcp://server@127.0.0.1:3552/user/bookManager");
+        final ActorRef requestDispatcher =
+                SYSTEM.actorOf(Props.create(RequestDispatcher.class), "requestDispatcher");
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
@@ -38,7 +33,7 @@ public class Client {
             if ("q".startsWith(line)) {
                 break;
             }
-            bookManager.tell(new BookRequest(line, BookRequest.Type.SEARCH), RESPONSE_RECEIVER);
+            requestDispatcher.tell(line, null);
         }
 
         SYSTEM.terminate();

@@ -8,7 +8,7 @@ public class ResponseReceiver extends AbstractActor {
     @Override
     public Receive createReceive() {
         return receiveBuilder()
-                .match(Book.class, b -> System.out.println(b.getTitle()))
+                .match(Book.class, System.out::println)
                 .build();
     }
 }

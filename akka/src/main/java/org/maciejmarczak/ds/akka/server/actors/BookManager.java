@@ -20,7 +20,9 @@ public class BookManager extends AbstractActor {
         String bookTitle = bookRequest.getBookTitle();
 
         switch (bookRequest.getType()) {
-            case SEARCH: getChildFromContext("bookFinder").tell(bookTitle, sender);
+            case SEARCH: getChildFromContext("bookFinder").tell(bookTitle, sender); break;
+            case ORDER: getChildFromContext("orderMaker").tell(bookTitle, sender); break;
+            case DOWNLOAD: getChildFromContext("bookDownloader").tell(bookTitle, sender); break;
         }
     }
 
@@ -31,5 +33,7 @@ public class BookManager extends AbstractActor {
     @Override
     public void preStart() throws Exception {
         context().actorOf(Props.create(BookFinder.class), "bookFinder");
+        context().actorOf(Props.create(OrderMaker.class), "orderMaker");
+        context().actorOf(Props.create(BookDownloader.class), "bookDownloader");
     }
 }
