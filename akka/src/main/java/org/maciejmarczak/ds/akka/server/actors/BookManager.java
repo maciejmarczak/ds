@@ -1,9 +1,12 @@
 package org.maciejmarczak.ds.akka.server.actors;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
-import akka.actor.Props;
+import akka.actor.*;
+import akka.japi.pf.DeciderBuilder;
+import org.maciejmarczak.ds.akka.model.BookNotFoundException;
 import org.maciejmarczak.ds.akka.model.BookRequest;
+import scala.concurrent.duration.Duration;
+
+import static akka.actor.SupervisorStrategy.resume;
 
 public class BookManager extends AbstractActor {
 
@@ -35,5 +38,13 @@ public class BookManager extends AbstractActor {
         context().actorOf(Props.create(BookFinder.class), "bookFinder");
         context().actorOf(Props.create(OrderMaker.class), "orderMaker");
         context().actorOf(Props.create(BookDownloader.class), "bookDownloader");
+    }
+
+    @Override
+    public SupervisorStrategy supervisorStrategy() {
+        return new OneForOneStrategy(10, Duration.create("1 minute"),
+                DeciderBuilder
+                        .match(BookNotFoundException.class, o -> resume())
+                        .build());
     }
 }

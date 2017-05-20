@@ -71,7 +71,7 @@ public class BookService {
         }
 
         try (CSVPrinter printer =
-                     new CSVPrinter(new FileWriter(DbSource.ORDERS_DB), CSVFormat.EXCEL)) {
+                     new CSVPrinter(new FileWriter(DbSource.ORDERS_DB, true), CSVFormat.EXCEL)) {
 
             synchronized (LOCK) {
                 printer.printRecord(book.getTitle());
