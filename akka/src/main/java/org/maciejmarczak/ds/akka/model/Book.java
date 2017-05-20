@@ -2,9 +2,10 @@ package org.maciejmarczak.ds.akka.model;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Book {
+public class Book implements Serializable {
     private final String title;
     private BigDecimal price;
 

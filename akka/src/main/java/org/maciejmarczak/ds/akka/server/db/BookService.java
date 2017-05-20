@@ -17,6 +17,13 @@ import java.util.concurrent.*;
 public class BookService {
 
     private static final Object LOCK = new Object();
+    private static final BookService INSTANCE = new BookService();
+
+    private BookService() {}
+
+    public static BookService getInstance() {
+        return INSTANCE;
+    }
 
     private final ExecutorService executorService
             = Executors.newCachedThreadPool();

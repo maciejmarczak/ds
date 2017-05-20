@@ -3,8 +3,11 @@ package org.maciejmarczak.ds.akka.client;
 import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
+import akka.actor.Props;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.maciejmarczak.ds.akka.client.actors.ResponseReceiver;
+import org.maciejmarczak.ds.akka.model.BookRequest;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,6 +16,7 @@ import java.io.InputStreamReader;
 
 public class Client {
     private static final ActorSystem SYSTEM;
+    private static final ActorRef RESPONSE_RECEIVER;
 
     static {
         File configFile = new File("conf/client.conf");
@@ -20,6 +24,8 @@ public class Client {
 
         // create actor system
         SYSTEM = ActorSystem.create("client", config);
+        RESPONSE_RECEIVER
+                = SYSTEM.actorOf(Props.create(ResponseReceiver.class), "responseReceiver");
     }
 
     public static void main(String[] args) throws IOException {
@@ -32,7 +38,7 @@ public class Client {
             if ("q".startsWith(line)) {
                 break;
             }
-            bookManager.tell(line, null);
+            bookManager.tell(new BookRequest(line, BookRequest.Type.SEARCH), RESPONSE_RECEIVER);
         }
 
         SYSTEM.terminate();

@@ -1,11 +1,10 @@
 package org.maciejmarczak.ds.akka.server;
 
-import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import org.maciejmarczak.ds.akka.server.actors.BookManagementActor;
+import org.maciejmarczak.ds.akka.server.actors.BookManager;
 
 import java.io.File;
 
@@ -19,7 +18,7 @@ public class Server {
 
         // create actor system
         SYSTEM = ActorSystem.create("server", config);
-        SYSTEM.actorOf(Props.create(BookManagementActor.class), "bookManager");
+        SYSTEM.actorOf(Props.create(BookManager.class), "bookManager");
     }
 
     private static void stop() {

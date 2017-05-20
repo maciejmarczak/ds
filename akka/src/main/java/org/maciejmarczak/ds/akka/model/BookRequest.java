@@ -1,6 +1,8 @@
 package org.maciejmarczak.ds.akka.model;
 
-public class BookRequest {
+import java.io.Serializable;
+
+public class BookRequest implements Serializable {
     private final String bookTitle;
     private final Type type;
 
