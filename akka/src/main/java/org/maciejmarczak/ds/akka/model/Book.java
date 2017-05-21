@@ -38,4 +38,9 @@ public class Book implements Serializable {
             return LOREM_IPSUM.getParagraphs(1).getBytes();
         }
     }
+
+    @Override
+    public String toString() {
+        return "'" + title + "', " + price;
+    }
 }

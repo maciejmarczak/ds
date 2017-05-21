@@ -1,8 +1,12 @@
 package org.maciejmarczak.ds.akka.server.actors;
 
 import akka.actor.AbstractActor;
+import org.maciejmarczak.ds.akka.server.db.BookService;
 
 abstract class StringReceiver extends AbstractActor {
+
+    final BookService bookService =
+            BookService.getInstance();
 
     @Override
     public Receive createReceive() {

@@ -2,12 +2,8 @@ package org.maciejmarczak.ds.akka.server.actors;
 
 import akka.actor.ActorSelection;
 import org.maciejmarczak.ds.akka.model.BookNotFoundException;
-import org.maciejmarczak.ds.akka.server.db.BookService;
 
 class OrderMaker extends StringReceiver {
-
-    private final BookService bookService =
-            BookService.getInstance();
 
     @Override
     void process(String message) {
