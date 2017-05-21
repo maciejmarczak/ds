@@ -35,7 +35,7 @@ public class Book implements Serializable {
                 = new LoremIpsum();
 
         static byte[] getContent() {
-            return LOREM_IPSUM.getParagraphs(1).getBytes();
+            return LOREM_IPSUM.getParagraphs(3).getBytes();
         }
     }
 

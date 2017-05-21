@@ -6,6 +6,7 @@ import org.maciejmarczak.ds.akka.model.BookNotFoundException;
 import org.maciejmarczak.ds.akka.model.BookRequest;
 import scala.concurrent.duration.Duration;
 
+import static akka.actor.SupervisorStrategy.restart;
 import static akka.actor.SupervisorStrategy.resume;
 
 public class BookManager extends AbstractActor {
@@ -45,6 +46,7 @@ public class BookManager extends AbstractActor {
         return new OneForOneStrategy(10, Duration.create("1 minute"),
                 DeciderBuilder
                         .match(BookNotFoundException.class, o -> resume())
+                        .match(ActorInterruptedException.class, o -> restart())
                         .build());
     }
 }
