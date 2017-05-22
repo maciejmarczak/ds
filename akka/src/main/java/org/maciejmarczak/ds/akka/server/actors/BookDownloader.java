@@ -16,7 +16,8 @@ import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 class BookDownloader extends StringReceiver {
@@ -35,10 +36,16 @@ class BookDownloader extends StringReceiver {
             return;
         }
 
-        Source<String, NotUsed> source = Source.from(
-                Arrays.asList(new String(book.getContent()).split("\\.")));
+        String content = book.getContent();
+        List<byte[]> chunks = new LinkedList<>();
 
-        Flow<String, String, NotUsed> flow = Flow.of(String.class).throttle(1, Duration.create(1,
+        for (String sentence : content.split("\\.")) {
+            chunks.add(sentence.getBytes());
+        }
+
+        Source<byte[], NotUsed> source = Source.from(chunks);
+
+        Flow<byte[], byte[], NotUsed> flow = Flow.of(byte[].class).throttle(1, Duration.create(1,
                 TimeUnit.SECONDS), 1, ThrottleMode.shaping());
 
         ActorRef actorRef;

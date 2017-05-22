@@ -26,7 +26,7 @@ public class Book implements Serializable {
         this.price = price;
     }
 
-    public byte[] getContent() {
+    public String getContent() {
         return ContentGenerator.getContent();
     }
 
@@ -34,8 +34,8 @@ public class Book implements Serializable {
         static final LoremIpsum LOREM_IPSUM
                 = new LoremIpsum();
 
-        static byte[] getContent() {
-            return LOREM_IPSUM.getParagraphs(3).getBytes();
+        static String getContent() {
+            return LOREM_IPSUM.getParagraphs(3);
         }
     }
 
